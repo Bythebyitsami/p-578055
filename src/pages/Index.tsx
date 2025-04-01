@@ -1,13 +1,18 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Header } from "@/components/layout/Header";
+import { Hero } from "@/components/home/Hero";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Raleway:wght@400;500&family=Trocchi&family=Montserrat:wght@700&display=swap"
+        rel="stylesheet"
+      />
+      <main className="max-w-none min-h-screen mx-auto px-10 py-5 max-md:max-w-[991px] max-sm:max-w-screen-sm">
+        <Header />
+        <Hero />
+      </main>
+    </>
   );
 };
 
