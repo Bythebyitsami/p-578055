@@ -4,36 +4,36 @@ import { Link } from "react-router-dom";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import { ProductCard } from "./ProductCard";
 
-// Sample product data
+// Updated product data with new images
 const products = [
   {
     id: 1,
-    title: "Sony WH-1000XM4",
-    image: "/lovable-uploads/9178d7e9-f608-482b-acf2-bfa0d99b72d3.png",
-    price: "₹19,740",
-    rating: 4.5,
-    stores: 3,
-  },
-  {
-    id: 2,
     title: "SAMSUNG 8.5 kg 5 star Semi Automatic Top Load Washing Machine",
-    image: "/lovable-uploads/9178d7e9-f608-482b-acf2-bfa0d99b72d3.png",
+    image: "/lovable-uploads/108fe49d-0ebf-49d4-8555-7624c47c5f4f.png",
     price: "₹13,490",
     rating: 4.4,
     stores: 3,
   },
   {
-    id: 3,
+    id: 2,
     title: "Apple iPhone 15 (128 GB) - Black",
-    image: "/lovable-uploads/9178d7e9-f608-482b-acf2-bfa0d99b72d3.png",
+    image: "/lovable-uploads/4f458e42-099d-428f-8054-c54ebd3e07e8.png",
     price: "₹60,900",
+    rating: 4.5,
+    stores: 3,
+  },
+  {
+    id: 3,
+    title: "Sony WH-1000XM4",
+    image: "https://m.media-amazon.com/images/I/61uFLlB8IVL._SL1500_.jpg",
+    price: "₹19,740",
     rating: 4.5,
     stores: 3,
   },
   {
     id: 4,
     title: "Logitech MX Master 3S",
-    image: "/lovable-uploads/9178d7e9-f608-482b-acf2-bfa0d99b72d3.png",
+    image: "https://m.media-amazon.com/images/I/61ni3t1ryQL._SL1500_.jpg",
     price: "₹7,995",
     rating: 4.7,
     stores: 4,
@@ -41,7 +41,7 @@ const products = [
   {
     id: 5,
     title: "ASUS TUF Gaming F15 Gaming Laptop",
-    image: "/lovable-uploads/9178d7e9-f608-482b-acf2-bfa0d99b72d3.png",
+    image: "https://m.media-amazon.com/images/I/71heOSLKJFL._SL1500_.jpg",
     price: "₹52,990",
     rating: 4.3,
     stores: 5,
@@ -52,8 +52,13 @@ export function TopDeals() {
   return (
     <section className="py-16 bg-amber-300">
       <div className="container px-4 mx-auto">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-4xl font-bold">Top Deals of the Day</h2>
+        <h2 className="text-4xl font-bold mb-4">Top Deals of the Day</h2>
+        
+        <p className="text-lg mb-6 max-w-3xl">
+          Discover the hottest discounts on the best products of the day. Shop now and save big with unbeatable deals from your favorite e-commerce sites!
+        </p>
+        
+        <div className="mb-8">
           <Link 
             to="/deals" 
             className="text-xl font-poppins hover:underline font-medium"
@@ -61,10 +66,6 @@ export function TopDeals() {
             View all deals
           </Link>
         </div>
-        
-        <p className="text-lg mb-12 max-w-3xl">
-          Discover the hottest discounts on the best products of the day. Shop now and save big with unbeatable deals from your favorite e-commerce sites!
-        </p>
 
         <Carousel className="w-full" opts={{ loop: true, align: "start" }}>
           <CarouselContent className="-ml-4">

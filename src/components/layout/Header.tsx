@@ -24,31 +24,31 @@ export function Header({ className }: HeaderProps) {
         >
           <Link
             to="/about"
-            className="text-xl text-black hover:text-primary transition-colors"
+            className="text-xl text-black hover:bg-[#F7F3E7] hover:text-primary transition-colors px-2 py-1 rounded"
           >
             About
           </Link>
           <Link
             to="/"
-            className="text-xl text-black hover:text-primary transition-colors"
+            className="text-xl text-black hover:bg-[#F7F3E7] hover:text-primary transition-colors px-2 py-1 rounded"
           >
             Home
           </Link>
           <Link
             to="/deals"
-            className="text-xl text-black hover:text-primary transition-colors"
+            className="text-xl text-black hover:bg-[#F7F3E7] hover:text-primary transition-colors px-2 py-1 rounded"
           >
             Deals
           </Link>
           <Link
             to="/contact"
-            className="text-xl text-black hover:text-primary transition-colors"
+            className="text-xl text-black hover:bg-[#F7F3E7] hover:text-primary transition-colors px-2 py-1 rounded"
           >
             Contact
           </Link>
           <Link
             to="/wishlist"
-            className="text-xl text-black hover:text-primary transition-colors"
+            className="text-xl text-black hover:bg-[#F7F3E7] hover:text-primary transition-colors px-2 py-1 rounded"
           >
             Wishlist
           </Link>
@@ -57,7 +57,7 @@ export function Header({ className }: HeaderProps) {
         <div className="flex items-center gap-[23px] max-sm:w-full max-sm:justify-between">
           <button
             aria-label="Notifications"
-            className="hover:opacity-80 transition-opacity"
+            className="hover:bg-[#F7F3E7] p-2 rounded transition-colors"
           >
             <img
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/019a0b99d1c944faa84618497a8fb43e2aad69b5"
@@ -65,7 +65,7 @@ export function Header({ className }: HeaderProps) {
               className="w-5 h-5"
             />
           </button>
-          <Link to="/login" className="text-xl text-black hover:text-primary transition-colors">
+          <Link to="/login" className="text-xl text-black hover:bg-[#F7F3E7] hover:text-primary transition-colors px-2 py-1 rounded">
             Login
           </Link>
         </div>
