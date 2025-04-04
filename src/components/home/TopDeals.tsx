@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import { ProductCard } from "./ProductCard";
 
@@ -51,8 +52,17 @@ export function TopDeals() {
   return (
     <section className="py-16 bg-amber-300">
       <div className="container px-4 mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-4">Top Deals of the Day</h2>
-        <p className="text-center text-lg mb-12 max-w-3xl mx-auto">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-4xl font-bold">Top Deals of the Day</h2>
+          <Link 
+            to="/deals" 
+            className="text-xl font-poppins hover:underline font-medium"
+          >
+            View all deals
+          </Link>
+        </div>
+        
+        <p className="text-lg mb-12 max-w-3xl">
           Discover the hottest discounts on the best products of the day. Shop now and save big with unbeatable deals from your favorite e-commerce sites!
         </p>
 
