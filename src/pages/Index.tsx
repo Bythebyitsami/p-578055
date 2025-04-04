@@ -12,7 +12,7 @@ const Index = () => {
         rel="stylesheet"
       />
       <main className="min-h-screen mx-auto">
-        <div className="px-10 py-5 max-md:max-w-[991px] max-sm:max-w-screen-sm bg-gradient-to-b from-yellow-300 via-amber-200 to-yellow-100">
+        <div className="px-10 py-5 max-md:max-w-[991px] max-sm:max-w-screen-sm bg-yellow-300">
           <Header />
           <Hero />
         </div>

@@ -19,7 +19,7 @@ const Contact = () => {
           <div className="flex flex-col items-center mt-12">
             <h1 className="text-5xl font-bold mb-10">Contact Us</h1>
             
-            <div className="w-full max-w-4xl bg-white rounded-lg p-8 shadow-md flex flex-col md:flex-row gap-8 mx-auto">
+            <div className="w-full max-w-4xl bg-white/70 backdrop-blur-md rounded-lg p-8 shadow-md flex flex-col md:flex-row gap-8 mx-auto">
               <div className="w-full md:w-1/2 flex flex-col justify-center">
                 <h2 className="text-3xl font-bold mb-4 text-center">Get in Touch</h2>
                 <p className="text-center mb-6">
@@ -42,17 +42,17 @@ const Contact = () => {
                 <form className="space-y-4">
                   <div>
                     <label htmlFor="name" className="block mb-1">Name</label>
-                    <Input id="name" placeholder="Your Name" className="w-full" />
+                    <Input id="name" placeholder="Your Name" className="w-full caret-blue-500" />
                   </div>
                   
                   <div>
                     <label htmlFor="email" className="block mb-1">Email</label>
-                    <Input id="email" type="email" placeholder="Your Email" className="w-full" />
+                    <Input id="email" type="email" placeholder="Your Email" className="w-full caret-blue-500" />
                   </div>
                   
                   <div>
                     <label htmlFor="message" className="block mb-1">Message</label>
-                    <Textarea id="message" placeholder="Your Message" className="w-full min-h-[120px]" />
+                    <Textarea id="message" placeholder="Your Message" className="w-full min-h-[120px] caret-blue-500" />
                   </div>
                   
                   <Button 

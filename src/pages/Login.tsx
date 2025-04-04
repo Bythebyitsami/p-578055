@@ -10,41 +10,13 @@ const Login = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-amber-50 to-blue-300 relative overflow-hidden">
-      {/* Panda Images */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10">
+    <div className="min-h-screen flex bg-gradient-to-b from-amber-50 to-blue-300 relative overflow-hidden">
+      {/* Left side panda image */}
+      <div className="absolute left-0 bottom-0 h-full w-1/2 flex items-end">
         <img 
-          src="/lovable-uploads/3b7596ad-48ba-409e-866a-999826d9a270.png" 
+          src="/lovable-uploads/ca4da384-94aa-419c-8dbc-a82921868278.png" 
           alt="Panda illustration" 
-          className="w-32 h-auto"
-        />
-      </div>
-      <div className="absolute top-60 left-32">
-        <img 
-          src="/lovable-uploads/3b7596ad-48ba-409e-866a-999826d9a270.png" 
-          alt="Panda illustration" 
-          className="w-32 h-auto"
-        />
-      </div>
-      <div className="absolute bottom-40 left-40">
-        <img 
-          src="/lovable-uploads/3b7596ad-48ba-409e-866a-999826d9a270.png" 
-          alt="Panda illustration" 
-          className="w-32 h-auto"
-        />
-      </div>
-      <div className="absolute bottom-0 left-16">
-        <img 
-          src="/lovable-uploads/3b7596ad-48ba-409e-866a-999826d9a270.png" 
-          alt="Panda illustration" 
-          className="w-32 h-auto"
-        />
-      </div>
-      <div className="absolute bottom-10 left-1/2">
-        <img 
-          src="/lovable-uploads/3b7596ad-48ba-409e-866a-999826d9a270.png" 
-          alt="Panda illustration" 
-          className="w-32 h-auto"
+          className="w-full h-auto"
         />
       </div>
 
@@ -52,12 +24,12 @@ const Login = () => {
       <div className="absolute bottom-0 w-full h-1/3 bg-blue-300 rounded-t-full opacity-70" />
 
       {/* Header */}
-      <div className="bg-blue-200 w-full py-6 px-4 text-center mb-10">
+      <div className="bg-blue-200 w-full py-6 px-4 text-center mb-10 relative z-10">
         <h1 className="text-4xl font-bold text-black">Panda's Got Your Back- Sign in</h1>
       </div>
 
       {/* Login Box */}
-      <div className="mx-auto w-full max-w-md px-8 py-10 bg-white/40 backdrop-blur-sm rounded-3xl shadow-lg z-10">
+      <div className="absolute top-1/2 right-10 -translate-y-1/2 w-full max-w-md px-8 py-10 bg-white/40 backdrop-blur-sm rounded-3xl shadow-lg z-10">
         <h2 className="text-4xl font-semibold text-blue-600 text-center mb-10">
           Login
         </h2>

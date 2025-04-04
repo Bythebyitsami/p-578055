@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import { ProductCard } from "./ProductCard";
 
-// Updated product data with new images
+// Updated product data with correct images
 const products = [
   {
     id: 1,
@@ -25,7 +25,7 @@ const products = [
   {
     id: 3,
     title: "Sony WH-1000XM4",
-    image: "https://m.media-amazon.com/images/I/61uFLlB8IVL._SL1500_.jpg",
+    image: "https://m.media-amazon.com/images/I/71o8Q5XJS5L._AC_UF1000,1000_QL80_.jpg",
     price: "₹19,740",
     rating: 4.5,
     stores: 3,
@@ -41,7 +41,7 @@ const products = [
   {
     id: 5,
     title: "ASUS TUF Gaming F15 Gaming Laptop",
-    image: "https://m.media-amazon.com/images/I/71heOSLKJFL._SL1500_.jpg",
+    image: "https://m.media-amazon.com/images/I/71-0oa+3HZL._SX679_.jpg",
     price: "₹52,990",
     rating: 4.3,
     stores: 5,
@@ -52,13 +52,16 @@ export function TopDeals() {
   return (
     <section className="py-16 bg-amber-300">
       <div className="container px-4 mx-auto">
-        <h2 className="text-4xl font-bold mb-4">Top Deals of the Day</h2>
+        <div className="flex justify-between items-center mb-6">
+          <div className="text-center mx-auto">
+            <h2 className="text-4xl font-bold mb-4">Top Deals of the Day</h2>
+            <p className="text-lg mb-2 max-w-3xl">
+              Discover the hottest discounts on the best products of the day. Shop now and save big with unbeatable deals from your favorite e-commerce sites!
+            </p>
+          </div>
+        </div>
         
-        <p className="text-lg mb-6 max-w-3xl">
-          Discover the hottest discounts on the best products of the day. Shop now and save big with unbeatable deals from your favorite e-commerce sites!
-        </p>
-        
-        <div className="mb-8">
+        <div className="flex justify-end mb-8">
           <Link 
             to="/deals" 
             className="text-xl font-poppins hover:underline font-medium"

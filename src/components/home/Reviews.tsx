@@ -44,7 +44,7 @@ const reviews = [
     avatar: "A",
     avatarColor: "bg-orange-500",
     rating: 5,
-    text: "The browser extension automatically finds coupons at checkout - it's like having a money-saving assistant with me everywhere I shop online.",
+    text: "The browser extension automatically finds coupons at checkout - it's like having a money-saving assistant with me everywhere I shop.",
   },
 ];
 
@@ -87,7 +87,7 @@ export function Reviews() {
 
 function ReviewCard({ review }: { review: typeof reviews[0] }) {
   return (
-    <Card className="bg-white rounded-3xl p-8 shadow-lg">
+    <Card className="bg-white rounded-3xl p-8 shadow-lg h-[280px] flex flex-col">
       <div className="flex items-center gap-3 mb-4">
         <div className={`${review.avatarColor} text-white w-10 h-10 rounded-full flex items-center justify-center font-medium`}>
           {review.avatar}
@@ -101,7 +101,7 @@ function ReviewCard({ review }: { review: typeof reviews[0] }) {
         ))}
       </div>
       
-      <p className="text-lg font-['Poppins'] leading-relaxed">
+      <p className="text-lg font-['Poppins'] leading-relaxed line-clamp-4 overflow-hidden">
         "{review.text}"
       </p>
     </Card>

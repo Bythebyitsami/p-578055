@@ -25,7 +25,7 @@ const products = [
   {
     id: 3,
     title: "Sony WH-1000XM4",
-    image: "https://m.media-amazon.com/images/I/61uFLlB8IVL._SL1500_.jpg",
+    image: "https://m.media-amazon.com/images/I/71o8Q5XJS5L._AC_UF1000,1000_QL80_.jpg",
     price: "₹19,740",
     rating: "4.5",
     stores: 3
@@ -89,9 +89,11 @@ const ProductCard = ({ product }: { product: typeof products[0] }) => {
             <div className="text-xs text-gray-600">{product.stores} stores</div>
           </div>
 
-          <Button className="w-full bg-black text-white hover:bg-gray-800">
-            Compare Prices
-          </Button>
+          <Link to="/login">
+            <Button className="w-full bg-black text-white hover:bg-gray-800">
+              Compare Prices
+            </Button>
+          </Link>
         </div>
       </div>
     </Card>

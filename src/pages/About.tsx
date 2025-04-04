@@ -14,10 +14,10 @@ const About = () => {
         <div className="px-10 py-5 max-w-7xl mx-auto">
           <Header />
           
-          <div className="mt-16 max-w-4xl mx-auto">
+          <div className="mt-16 max-w-4xl mx-auto relative">
             <h1 className="text-5xl font-bold text-center mb-10">About Us</h1>
             
-            <div className="bg-white rounded-lg p-8 shadow-md mb-10">
+            <div className="bg-white/70 backdrop-blur-md rounded-lg p-8 shadow-md mb-10 relative z-10">
               <h2 className="text-2xl font-bold mb-2">Who We Are</h2>
               <p className="mb-6">
                 Price Panda is your ultimate shopping sidekick, making online shopping smarter, faster, and
@@ -76,9 +76,9 @@ const About = () => {
           </div>
         </div>
         
-        <div className="absolute bottom-0 left-10 max-w-[200px]">
+        <div className="absolute bottom-0 left-10 max-w-[200px] z-0">
           <img 
-            src="/lovable-uploads/c3405b22-f792-4f58-9646-45ee74161b40.png" 
+            src="/lovable-uploads/84e9f789-caf9-45ea-9324-6047bba92bae.png" 
             alt="Panda mascot with coffee" 
             className="w-full"
           />
