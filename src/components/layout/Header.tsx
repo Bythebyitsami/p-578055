@@ -65,9 +65,9 @@ export function Header({ className }: HeaderProps) {
               className="w-5 h-5"
             />
           </button>
-          <button className="text-xl text-black hover:text-primary transition-colors">
+          <Link to="/login" className="text-xl text-black hover:text-primary transition-colors">
             Login
-          </button>
+          </Link>
         </div>
       </div>
     </header>
