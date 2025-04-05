@@ -44,7 +44,7 @@ const EmptyWishlist = () => {
       </Button>
 
       <div className="max-w-[200px] absolute bottom-0 left-10">
-        <img alt="Panda mascot with coffee" className="w-full" src="/lovable-uploads/b8408168-10c9-4e69-8394-c7ca627dbfc8.jpg" />
+        
       </div>
     </div>;
 };
