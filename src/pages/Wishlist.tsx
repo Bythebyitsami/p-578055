@@ -1,41 +1,31 @@
-
 import { useState, useEffect } from "react";
 import { Header } from "@/components/layout/Header";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Heart, ShoppingBag } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-
 const Wishlist = () => {
   const [animateIn, setAnimateIn] = useState(false);
-  const { isLoggedIn } = useAuth();
-
+  const {
+    isLoggedIn
+  } = useAuth();
   useEffect(() => {
     setAnimateIn(true);
   }, []);
-
-  return (
-    <div className="min-h-screen bg-[#d9f0ff]">
+  return <div className="min-h-screen bg-[#d9f0ff]">
       <div className="container mx-auto px-4 py-8">
         <Header />
         
         <h1 className="text-5xl font-bold text-center my-12">My Wishlist</h1>
         
         <div className={`transition-opacity duration-700 ${animateIn ? 'opacity-100' : 'opacity-0'}`}>
-          {isLoggedIn ? (
-            <EmptyWishlist />
-          ) : (
-            <NotLoggedInWishlist />
-          )}
+          {isLoggedIn ? <EmptyWishlist /> : <NotLoggedInWishlist />}
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 const EmptyWishlist = () => {
-  return (
-    <div className="max-w-3xl mx-auto bg-white/80 backdrop-blur-sm rounded-xl p-10 text-center">
+  return <div className="max-w-3xl mx-auto bg-white/80 backdrop-blur-sm rounded-xl p-10 text-center">
       <div className="flex justify-center mb-6">
         <Heart className="h-24 w-24 text-gray-300" />
       </div>
@@ -54,19 +44,12 @@ const EmptyWishlist = () => {
       </Button>
 
       <div className="max-w-[200px] absolute bottom-0 left-10">
-        <img 
-          src="/lovable-uploads/74171374-0c2f-4186-8cf3-3bd35364397c.png" 
-          alt="Panda mascot with coffee" 
-          className="w-full"
-        />
+        <img alt="Panda mascot with coffee" className="w-full" src="/lovable-uploads/b8408168-10c9-4e69-8394-c7ca627dbfc8.jpg" />
       </div>
-    </div>
-  );
+    </div>;
 };
-
 const NotLoggedInWishlist = () => {
-  return (
-    <div className="max-w-3xl mx-auto bg-white/80 backdrop-blur-sm rounded-xl p-10 text-center">
+  return <div className="max-w-3xl mx-auto bg-white/80 backdrop-blur-sm rounded-xl p-10 text-center">
       <div className="flex justify-center mb-6">
         <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" className="h-24 w-24 text-gray-300" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
           <path d="M17 3L21 7V21H7V3H17Z"></path>
@@ -97,8 +80,6 @@ const NotLoggedInWishlist = () => {
           </Link>
         </Button>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Wishlist;
