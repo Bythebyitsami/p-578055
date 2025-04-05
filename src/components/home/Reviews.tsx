@@ -72,15 +72,6 @@ export function Reviews() {
           </div>
         </Carousel>
       </div>
-      
-      {/* Panda image on the right side */}
-      <div className="absolute right-0 top-0 h-full w-1/3 flex items-center">
-        <img 
-          src="/lovable-uploads/3376684c-670c-4a26-96ee-3a203044321a.png" 
-          alt="Panda mascot peeking" 
-          className="h-full object-contain object-right"
-        />
-      </div>
     </section>
   );
 }

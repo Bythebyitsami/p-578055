@@ -73,14 +73,6 @@ const Contact = () => {
             </div>
           </div>
         </div>
-        
-        <div className="absolute bottom-0 left-10 max-w-[200px]">
-          <img 
-            src="/lovable-uploads/d4886316-de59-4387-ba96-097a78b20aee.png" 
-            alt="Panda mascot with coffee" 
-            className="w-full"
-          />
-        </div>
       </main>
     </>
   );

@@ -72,7 +72,7 @@ const Login = () => {
     <div className="min-h-screen flex bg-[#F9F2DA] relative overflow-hidden">
       {/* Back Button */}
       <button 
-        onClick={() => navigate(-1)} 
+        onClick={() => navigate("/")} 
         className="absolute top-6 left-6 z-20 p-2 rounded-full hover:bg-[#F7F3E7] transition-colors"
         aria-label="Go back"
       >

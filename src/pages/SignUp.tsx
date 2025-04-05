@@ -17,6 +17,7 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const [animatePanel, setAnimatePanel] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -34,6 +35,7 @@ const SignUp = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    setFormSubmitted(true);
     let isValid = true;
     
     // Reset errors
@@ -75,12 +77,13 @@ const SignUp = () => {
   };
   
   const isFormValid = firstName && lastName && email && password && confirmPassword && password === confirmPassword && !emailError && !passwordError;
+  const showErrorMessage = formSubmitted && (!firstName || !lastName || !email || !password || !confirmPassword || emailError || passwordError);
 
   return (
     <div className="min-h-screen flex bg-[#F9F2DA] relative overflow-hidden">
       {/* Back Button */}
       <button 
-        onClick={() => navigate(-1)} 
+        onClick={() => navigate("/")} 
         className="absolute top-6 left-6 z-20 p-2 rounded-full hover:bg-[#F7F3E7] transition-colors"
         aria-label="Go back"
       >
@@ -101,7 +104,7 @@ const SignUp = () => {
           Sign up
         </h2>
         
-        {(emailError || passwordError) && (
+        {showErrorMessage && (
           <div className="mb-4 text-center text-red-500 font-medium">
             Hold up! Don't forget anything!
           </div>
