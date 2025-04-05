@@ -17,6 +17,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import ProductCompare from "./pages/ProductCompare";
 import Profile from "./pages/Profile";
 import Wishlist from "./pages/Wishlist";
+import SearchResults from "./pages/SearchResults";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
             <Route path="/product/:productId" element={<ProductCompare />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/search" element={<SearchResults />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
