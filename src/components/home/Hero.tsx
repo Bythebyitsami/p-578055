@@ -1,36 +1,57 @@
+
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function Hero() {
+  const [isHeroVisible, setIsHeroVisible] = useState(false);
+  const navigate = useNavigate();
+  const { isLoggedIn, user } = useAuth();
+
+  useEffect(() => {
+    setIsHeroVisible(true);
+  }, []);
+
+  const handleButtonClick = () => {
+    if (isLoggedIn) {
+      navigate('/deals');
+    } else {
+      navigate('/login');
+    }
+  };
+
   return (
-    <section className="flex items-center gap-10 mt-10 max-md:flex-col max-md:text-center">
-      <div className="w-6/12 max-w-[881px] max-md:w-[70%] max-sm:w-[90%]">
-        <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/eb776f79ce1fa780949291fd59ad6cf1d55503d4"
-          alt="Panda mascot"
-          className="w-full h-auto"
-        />
-      </div>
-
-      <div className="flex-1 p-5 max-md:w-full">
-        <h1 className="text-5xl font-bold text-black mb-[30px] max-sm:text-[28px]">
-          YOUR SHOPPING SIDEKICK
-        </h1>
-
-        <p className="text-lg leading-[30px] text-black text-center max-w-screen-sm mb-10 max-sm:text-sm">
-          Why waste time hopping between e-commerce sites when Price Panda can
-          do the hard work for you? Compare prices effortlessly, find the best
-          deals, and shop smarter—all in one place!
+    <div className="flex flex-col items-center justify-center py-12 lg:py-24 px-4">
+      <div
+        className={`transition-all duration-700 ${
+          isHeroVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 -translate-y-10"
+        }`}
+      >
+        {isLoggedIn ? (
+          <h1 className="text-3xl md:text-5xl font-extrabold text-center mb-6">
+            Hey {user?.firstName}, your Price Panda adventure starts now!
+          </h1>
+        ) : (
+          <h1 className="text-3xl md:text-5xl font-extrabold text-center mb-6">
+            Never Overpay Again!
+          </h1>
+        )}
+        <p className="text-xl md:text-2xl text-center mb-10 max-w-2xl mx-auto">
+          Price Panda compares prices across top retailers to help you find the best deals and lowest prices for your favorite products.
         </p>
-
-        <Button
-          className="text-lg font-bold text-black cursor-pointer transition-all duration-[0.3s] ease-[ease] 
-                     bg-white px-10 py-4 rounded-[100px] border-4 border-solid border-black 
-                     hover:bg-black hover:text-white max-sm:w-full"
-          onClick={() => console.log("Get Started clicked")}
-        >
-          Get Started
-        </Button>
+        <div className="flex justify-center">
+          <Button
+            size="lg"
+            className="text-xl py-6 px-10 bg-black text-white hover:bg-gray-800"
+            onClick={handleButtonClick}
+          >
+            {isLoggedIn ? "Compare Now" : "Get Started"}
+          </Button>
+        </div>
       </div>
-    </section>
+    </div>
   );
 }

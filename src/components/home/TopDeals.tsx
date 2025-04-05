@@ -1,5 +1,4 @@
 
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import { ProductCard } from "./ProductCard";
@@ -7,7 +6,7 @@ import { ProductCard } from "./ProductCard";
 // Updated product data with correct images
 const products = [
   {
-    id: 1,
+    id: "1",
     title: "SAMSUNG 8.5 kg 5 star Semi Automatic Top Load Washing Machine",
     image: "/lovable-uploads/108fe49d-0ebf-49d4-8555-7624c47c5f4f.png",
     price: "₹13,490",
@@ -15,7 +14,7 @@ const products = [
     stores: 3,
   },
   {
-    id: 2,
+    id: "2",
     title: "Apple iPhone 15 (128 GB) - Black",
     image: "/lovable-uploads/4f458e42-099d-428f-8054-c54ebd3e07e8.png",
     price: "₹60,900",
@@ -23,7 +22,7 @@ const products = [
     stores: 3,
   },
   {
-    id: 3,
+    id: "3",
     title: "Sony WH-1000XM4",
     image: "https://m.media-amazon.com/images/I/71o8Q5XJS5L._AC_UF1000,1000_QL80_.jpg",
     price: "₹19,740",
@@ -31,7 +30,7 @@ const products = [
     stores: 3,
   },
   {
-    id: 4,
+    id: "4",
     title: "Logitech MX Master 3S",
     image: "https://m.media-amazon.com/images/I/61ni3t1ryQL._SL1500_.jpg",
     price: "₹7,995",
@@ -39,9 +38,9 @@ const products = [
     stores: 4,
   },
   {
-    id: 5,
-    title: "ASUS TUF Gaming F15 Gaming Laptop",
-    image: "https://m.media-amazon.com/images/I/71-0oa+3HZL._SX679_.jpg",
+    id: "5",
+    title: "Apple MacBook Air Laptop with M2 chip with 8 GB RAM / 512 GB SSD",
+    image: "https://m.media-amazon.com/images/I/71LAlGbpGOL._SL1500_.jpg",
     price: "₹52,990",
     rating: 4.3,
     stores: 5,
@@ -75,6 +74,7 @@ export function TopDeals() {
             {products.map((product) => (
               <CarouselItem key={product.id} className="pl-4 md:basis-1/3 lg:basis-1/3">
                 <ProductCard
+                  id={product.id}
                   title={product.title}
                   image={product.image}
                   price={product.price}

@@ -74,7 +74,7 @@ const SignUp = () => {
     }
   };
   
-  const isFormValid = firstName && lastName && email && password && confirmPassword && password === confirmPassword;
+  const isFormValid = firstName && lastName && email && password && confirmPassword && password === confirmPassword && !emailError && !passwordError;
 
   return (
     <div className="min-h-screen flex bg-[#F9F2DA] relative overflow-hidden">
@@ -87,17 +87,17 @@ const SignUp = () => {
         <ArrowLeft className="h-6 w-6" />
       </button>
 
-      {/* Panda image on the right */}
-      <div className={`absolute right-0 h-full w-1/2 flex items-center justify-center transition-all duration-500 ease-in-out ${animatePanel ? 'translate-x-0' : 'translate-x-full'}`}>
+      {/* Panda image on the right - taking full height */}
+      <div className={`absolute right-0 h-full w-1/2 transition-all duration-500 ease-in-out ${animatePanel ? 'translate-x-0' : 'translate-x-full'}`}>
         <img 
-          src="/lovable-uploads/eec20ba4-a863-46d1-a17e-a61d28d9cb47.png" 
+          src="/lovable-uploads/e2c71cfd-71d5-44e8-aee7-b60a96789439.png" 
           alt="Pandas illustration" 
           className="w-full h-full object-cover"
         />
       </div>
 
       {/* Blue wave decoration */}
-      <div className="absolute bottom-0 w-full h-1/4 bg-blue-300 rounded-t-full opacity-70" />
+      <div className="absolute bottom-0 w-full h-1/5 bg-blue-300 rounded-t-full opacity-70" />
 
       {/* Header */}
       <div className="bg-blue-200 w-full py-3 px-4 text-center mb-6 relative z-10">

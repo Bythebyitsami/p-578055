@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { User, LogOut, Settings } from "lucide-react";
 
 interface HeaderProps {
   className?: string;
@@ -99,25 +100,39 @@ export function Header({ className }: HeaderProps) {
           {isLoggedIn ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="text-xl text-black hover:text-primary transition-colors px-2 py-1 rounded">
+                <Button variant="ghost" className="flex items-center gap-2 text-xl text-black hover:text-primary transition-colors px-2 py-1 rounded">
+                  {user?.profileImage ? (
+                    <img 
+                      src={user.profileImage} 
+                      alt="Profile" 
+                      className="w-7 h-7 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-7 h-7 bg-gray-300 rounded-full flex items-center justify-center text-sm text-gray-700">
+                      {user?.firstName.charAt(0)}
+                    </div>
+                  )}
                   {user?.firstName || "Profile"}
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem>
-                  <Link to="/profile" className="w-full">
-                    Profile Settings
-                  </Link>
+              <DropdownMenuContent align="end" className="w-56 bg-white shadow-lg z-50">
+                <DropdownMenuItem onClick={() => navigate("/profile")} className="cursor-pointer">
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Profile Settings</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={logout}>
-                  Logout
+                <DropdownMenuItem onClick={logout} className="cursor-pointer text-red-500 hover:text-red-600 hover:bg-red-50">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Logout</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <Link to="/login" className="text-xl text-black hover:text-primary transition-colors px-2 py-1 rounded">
-              Login
+              <div className="flex items-center gap-2">
+                <User className="h-5 w-5" />
+                <span>Login</span>
+              </div>
             </Link>
           )}
         </div>

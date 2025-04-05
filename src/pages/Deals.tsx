@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Heart, Share2, ArrowLeft } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const products = [
   {
@@ -57,10 +58,24 @@ const products = [
 ];
 
 const ProductCard = ({ product }: { product: typeof products[0] }) => {
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+  
+  const handleCompareClick = () => {
+    if (isLoggedIn) {
+      navigate(`/product/${product.id}`);
+    } else {
+      navigate('/login');
+    }
+  };
+
   return (
     <Card className="bg-white rounded-3xl overflow-hidden h-full flex flex-col">
       <div className="p-4 flex-1 flex flex-col">
-        <div className="relative mb-4 flex items-center justify-center bg-white">
+        <div 
+          className="relative mb-4 flex items-center justify-center bg-white cursor-pointer"
+          onClick={handleCompareClick}
+        >
           <img
             src={product.image}
             alt={product.title}
@@ -89,11 +104,12 @@ const ProductCard = ({ product }: { product: typeof products[0] }) => {
             <div className="text-xs text-gray-600">{product.stores} stores</div>
           </div>
 
-          <Link to="/login">
-            <Button className="w-full bg-black text-white hover:bg-gray-800">
-              Compare Prices
-            </Button>
-          </Link>
+          <Button 
+            className="w-full bg-black text-white hover:bg-gray-800"
+            onClick={handleCompareClick}
+          >
+            Compare Prices
+          </Button>
         </div>
       </div>
     </Card>

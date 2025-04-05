@@ -2,7 +2,8 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Heart, Share2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface ProductCardProps {
   title: string;
@@ -11,6 +12,7 @@ interface ProductCardProps {
   rating: number;
   stores: number;
   className?: string;
+  id?: string;
 }
 
 export function ProductCard({
@@ -20,10 +22,25 @@ export function ProductCard({
   rating,
   stores,
   className,
+  id = "1",
 }: ProductCardProps) {
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+  
+  const handleCompareClick = () => {
+    if (isLoggedIn) {
+      navigate(`/product/${id}`);
+    } else {
+      navigate('/login');
+    }
+  };
+
   return (
     <div className={cn("bg-white rounded-3xl p-5 flex flex-col h-full", className)}>
-      <Link to="/login" className="relative mb-4 flex-1 flex items-center justify-center">
+      <div 
+        onClick={handleCompareClick}
+        className="relative mb-4 flex-1 flex items-center justify-center cursor-pointer"
+      >
         <img
           src={image}
           alt={title}
@@ -43,7 +60,7 @@ export function ProductCard({
             <Share2 className="w-5 h-5" />
           </button>
         </div>
-      </Link>
+      </div>
 
       <div className="mt-auto">
         <div className="flex justify-between items-center mb-2">
@@ -58,14 +75,13 @@ export function ProductCard({
           <div className="text-sm text-gray-600">{stores} stores</div>
         </div>
 
-        <Link to="/login">
-          <Button 
-            variant="default" 
-            className="w-full bg-black text-white hover:bg-gray-800"
-          >
-            Compare Prices
-          </Button>
-        </Link>
+        <Button 
+          variant="default" 
+          className="w-full bg-black text-white hover:bg-gray-800"
+          onClick={handleCompareClick}
+        >
+          Compare Prices
+        </Button>
       </div>
     </div>
   );

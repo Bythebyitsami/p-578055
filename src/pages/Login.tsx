@@ -66,7 +66,7 @@ const Login = () => {
     }
   };
 
-  const isFormValid = email && password;
+  const isFormValid = email && password && !emailError && !passwordError;
 
   return (
     <div className="min-h-screen flex bg-[#F9F2DA] relative overflow-hidden">
@@ -79,17 +79,17 @@ const Login = () => {
         <ArrowLeft className="h-6 w-6" />
       </button>
 
-      {/* Left side panda image */}
-      <div className={`absolute left-0 h-full w-1/2 flex items-center justify-center transition-all duration-500 ease-in-out ${animatePanel ? 'translate-x-0' : '-translate-x-full'}`}>
+      {/* Left side panda image - taking full height */}
+      <div className={`absolute left-0 h-full w-1/2 transition-all duration-500 ease-in-out ${animatePanel ? 'translate-x-0' : '-translate-x-full'}`}>
         <img 
-          src="/lovable-uploads/eec20ba4-a863-46d1-a17e-a61d28d9cb47.png" 
+          src="/lovable-uploads/e2c71cfd-71d5-44e8-aee7-b60a96789439.png" 
           alt="Pandas illustration" 
           className="w-full h-full object-cover"
         />
       </div>
 
       {/* Blue wave decoration */}
-      <div className="absolute bottom-0 w-full h-1/4 bg-blue-300 rounded-t-full opacity-70" />
+      <div className="absolute bottom-0 w-full h-1/5 bg-blue-300 rounded-t-full opacity-70" />
 
       {/* Header */}
       <div className="bg-blue-200 w-full py-3 px-4 text-center mb-6 relative z-10">
@@ -176,7 +176,6 @@ const Login = () => {
             <Button
               variant="outline"
               className="flex items-center space-x-2 rounded-full border-none"
-              onClick={() => window.location.href = "https://accounts.google.com/"}
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="28px" height="28px">
                 <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
