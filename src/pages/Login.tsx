@@ -79,25 +79,16 @@ const Login = () => {
         <ArrowLeft className="h-6 w-6" />
       </button>
 
-      {/* Left side panda image - taking full height */}
-      <div className={`absolute left-0 h-full w-1/2 transition-all duration-500 ease-in-out ${animatePanel ? 'translate-x-0' : '-translate-x-full'}`}>
-        <img 
-          src="/lovable-uploads/e2c71cfd-71d5-44e8-aee7-b60a96789439.png" 
-          alt="Pandas illustration" 
-          className="w-full h-full object-cover"
-        />
-      </div>
-
       {/* Blue wave decoration */}
       <div className="absolute bottom-0 w-full h-1/5 bg-blue-300 rounded-t-full opacity-70" />
 
       {/* Header */}
       <div className="bg-blue-200 w-full py-3 px-4 text-center mb-6 relative z-10">
-        <h1 className="text-2xl font-bold text-black">Panda's Got Your Back- Sign in</h1>
+        <h1 className="text-2xl font-bold text-black">Panda's Got Your Back - Sign in</h1>
       </div>
 
-      {/* Login Box */}
-      <div className={`absolute top-1/2 right-10 -translate-y-1/2 w-full max-w-md px-8 py-8 bg-white/40 backdrop-blur-sm rounded-3xl shadow-lg z-10 transition-all duration-500 ease-in-out ${animatePanel ? 'translate-x-0' : 'translate-x-full'}`}>
+      {/* Login Box - Centered */}
+      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md px-8 py-8 bg-white/40 backdrop-blur-sm rounded-3xl shadow-lg z-10 transition-all duration-500 ease-in-out ${animatePanel ? 'opacity-100' : 'opacity-0'}`}>
         <h2 className="text-3xl font-semibold text-blue-600 text-center mb-6">
           Login
         </h2>
