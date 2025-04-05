@@ -3,8 +3,12 @@ import { Header } from "@/components/layout/Header";
 import { Hero } from "@/components/home/Hero";
 import { TopDeals } from "@/components/home/TopDeals";
 import { Reviews } from "@/components/home/Reviews";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Index = () => {
+  // Simply including useAuth here to ensure our context is available in this component
+  const { isLoggedIn } = useAuth();
+
   return (
     <>
       <link

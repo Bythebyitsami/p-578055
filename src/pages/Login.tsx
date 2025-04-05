@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeClosed, ArrowLeft, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,6 +16,7 @@ const Login = () => {
   const [animatePanel, setAnimatePanel] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { login } = useAuth();
 
   useEffect(() => {
     setAnimatePanel(true);
@@ -43,17 +45,23 @@ const Login = () => {
     }
     
     if (isValid) {
-      // Successful login
-      toast({
-        title: "Login successful",
-        description: "Welcome back!"
-      });
-      navigate("/");
+      // Attempt login
+      const loginSuccess = login(email, password);
+      
+      if (loginSuccess) {
+        navigate("/");
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Login failed",
+          description: "Incorrect email or password"
+        });
+      }
     } else {
       toast({
         variant: "destructive",
         title: "Login failed",
-        description: "Incorrect email or password"
+        description: "Please check your email and password"
       });
     }
   };
@@ -74,17 +82,17 @@ const Login = () => {
       {/* Left side panda image */}
       <div className={`absolute left-0 h-full w-1/2 flex items-center justify-center transition-all duration-500 ease-in-out ${animatePanel ? 'translate-x-0' : '-translate-x-full'}`}>
         <img 
-          src="/lovable-uploads/58905563-bfbf-4655-aeab-db2219a01744.png" 
+          src="/lovable-uploads/eec20ba4-a863-46d1-a17e-a61d28d9cb47.png" 
           alt="Pandas illustration" 
-          className="w-full h-auto"
+          className="w-full h-full object-cover"
         />
       </div>
 
       {/* Blue wave decoration */}
-      <div className="absolute bottom-0 w-full h-1/3 bg-blue-300 rounded-t-full opacity-70" />
+      <div className="absolute bottom-0 w-full h-1/4 bg-blue-300 rounded-t-full opacity-70" />
 
       {/* Header */}
-      <div className="bg-blue-200 w-full py-4 px-4 text-center mb-6 relative z-10">
+      <div className="bg-blue-200 w-full py-3 px-4 text-center mb-6 relative z-10">
         <h1 className="text-2xl font-bold text-black">Panda's Got Your Back- Sign in</h1>
       </div>
 
