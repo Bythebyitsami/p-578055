@@ -130,9 +130,9 @@ const Deals = () => {
           <Button 
             variant="outline" 
             className="mb-6 border-2 border-black hover:bg-black hover:text-white"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/")}
           >
-            <ArrowLeft className="mr-2 h-4 w-4" /> Previous Page
+            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Home
           </Button>
           
           <div className="text-center mb-8">
