@@ -26,7 +26,7 @@ export interface ProductStore {
 
 export const ProductService = {
   async getProducts({ limit = 10, offset = 0, category = null }): Promise<Product[]> {
-    let query = supabase.from('products').select('*');
+    let query = supabase.from('products' as any).select('*');
     
     if (category) {
       query = query.eq('category', category);
@@ -46,7 +46,7 @@ export const ProductService = {
   
   async getProductById(id: string): Promise<Product | null> {
     const { data, error } = await supabase
-      .from('products')
+      .from('products' as any)
       .select('*')
       .eq('id', id)
       .single();
@@ -61,7 +61,7 @@ export const ProductService = {
   
   async getProductStores(productId: string): Promise<ProductStore[]> {
     const { data, error } = await supabase
-      .from('product_stores')
+      .from('product_stores' as any)
       .select('*')
       .eq('product_id', productId)
       .order('store_price', { ascending: true });
