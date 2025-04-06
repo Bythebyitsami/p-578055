@@ -1,53 +1,55 @@
 
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import { ProductCard } from "./ProductCard";
+import { ProductService, Product, ProductStore } from "@/services/ProductService";
 
-// Updated product data with correct images
-const products = [
-  {
-    id: "1",
-    title: "SAMSUNG 8.5 kg 5 star Semi Automatic Top Load Washing Machine",
-    image: "/lovable-uploads/108fe49d-0ebf-49d4-8555-7624c47c5f4f.png",
-    price: "₹13,490",
-    rating: 4.4,
-    stores: 3,
-  },
-  {
-    id: "2",
-    title: "Apple iPhone 15 (128 GB) - Black",
-    image: "/lovable-uploads/4f458e42-099d-428f-8054-c54ebd3e07e8.png",
-    price: "₹60,900",
-    rating: 4.5,
-    stores: 3,
-  },
-  {
-    id: "3",
-    title: "Sony WH-1000XM4",
-    image: "https://m.media-amazon.com/images/I/71o8Q5XJS5L._AC_UF1000,1000_QL80_.jpg",
-    price: "₹19,740",
-    rating: 4.5,
-    stores: 3,
-  },
-  {
-    id: "4",
-    title: "Logitech MX Master 3S",
-    image: "https://m.media-amazon.com/images/I/61ni3t1ryQL._SL1500_.jpg",
-    price: "₹7,995",
-    rating: 4.7,
-    stores: 4,
-  },
-  {
-    id: "5",
-    title: "Apple MacBook Air Laptop with M2 chip with 8 GB RAM / 512 GB SSD",
-    image: "https://m.media-amazon.com/images/I/71LAlGbpGOL._SL1500_.jpg",
-    price: "₹52,990",
-    rating: 4.3,
-    stores: 5,
-  },
-];
+interface ProductWithStores {
+  product: Product;
+  storeCount: number;
+  lowestPrice: string;
+}
 
 export function TopDeals() {
+  const [products, setProducts] = useState<ProductWithStores[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setIsLoading(true);
+        
+        // Get products
+        const productList = await ProductService.getProducts({ limit: 5 });
+        
+        // Get store counts and lowest prices for each product
+        const productsWithStores = await Promise.all(
+          productList.map(async (product) => {
+            const stores = await ProductService.getProductStores(product.id);
+            const lowestPrice = stores.length > 0 
+              ? `₹${Math.min(...stores.map(store => store.store_price)).toLocaleString('en-IN')}`
+              : `₹${product.price.toLocaleString('en-IN')}`;
+              
+            return {
+              product,
+              storeCount: stores.length,
+              lowestPrice
+            };
+          })
+        );
+        
+        setProducts(productsWithStores);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <section className="py-16 bg-amber-300">
       <div className="container px-4 mx-auto">
@@ -69,30 +71,33 @@ export function TopDeals() {
           </Link>
         </div>
 
-        <Carousel className="w-full" opts={{ loop: true, align: "start" }}>
-          <CarouselContent className="-ml-4">
-            {products.map((product) => (
-              <CarouselItem key={product.id} className="pl-4 md:basis-1/3 lg:basis-1/3">
-                <ProductCard
-                  id={product.id}
-                  title={product.title}
-                  image={product.image}
-                  price={product.price}
-                  rating={product.rating}
-                  stores={product.stores}
-                />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <div className="flex justify-center mt-8 gap-8">
-            <CarouselPrevious 
-              className="relative position-static left-0 translate-y-0 h-12 w-12 rounded-full bg-white text-black hover:bg-black hover:text-white border-2 border-black"
-            />
-            <CarouselNext 
-              className="relative position-static right-0 translate-y-0 h-12 w-12 rounded-full bg-white text-black hover:bg-black hover:text-white border-2 border-black"
-            />
+        {isLoading ? (
+          <div className="flex justify-center items-center h-60">
+            <div className="text-xl font-medium">Loading deals...</div>
           </div>
-        </Carousel>
+        ) : (
+          <Carousel className="w-full" opts={{ loop: true, align: "start" }}>
+            <CarouselContent className="-ml-4">
+              {products.map(({ product, storeCount, lowestPrice }) => (
+                <CarouselItem key={product.id} className="pl-4 md:basis-1/3 lg:basis-1/3">
+                  <ProductCard
+                    product={product}
+                    storeCount={storeCount}
+                    lowestPrice={lowestPrice}
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <div className="flex justify-center mt-8 gap-8">
+              <CarouselPrevious 
+                className="relative position-static left-0 translate-y-0 h-12 w-12 rounded-full bg-white text-black hover:bg-black hover:text-white border-2 border-black"
+              />
+              <CarouselNext 
+                className="relative position-static right-0 translate-y-0 h-12 w-12 rounded-full bg-white text-black hover:bg-black hover:text-white border-2 border-black"
+              />
+            </div>
+          </Carousel>
+        )}
       </div>
     </section>
   );

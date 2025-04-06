@@ -1,63 +1,21 @@
 
+import { useState, useEffect } from "react";
 import { Header } from "@/components/layout/Header";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Heart, Share2, ArrowLeft } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { ProductService, Product, ProductStore } from "@/services/ProductService";
 
-const products = [
-  {
-    id: 1,
-    title: "SAMSUNG 8.5 kg 5 star Semi Automatic Top Load Washing Machine",
-    image: "/lovable-uploads/108fe49d-0ebf-49d4-8555-7624c47c5f4f.png",
-    price: "₹13,490",
-    rating: "4.4",
-    stores: 3
-  },
-  {
-    id: 2,
-    title: "Apple iPhone 15 (128 GB) - Black",
-    image: "/lovable-uploads/4f458e42-099d-428f-8054-c54ebd3e07e8.png",
-    price: "₹60,900",
-    rating: "4.5",
-    stores: 3
-  },
-  {
-    id: 3,
-    title: "Sony WH-1000XM4",
-    image: "https://m.media-amazon.com/images/I/71o8Q5XJS5L._AC_UF1000,1000_QL80_.jpg",
-    price: "₹19,740",
-    rating: "4.5",
-    stores: 3
-  },
-  {
-    id: 4,
-    title: "Logitech MX Master 3S",
-    image: "https://m.media-amazon.com/images/I/61ni3t1ryQL._SL1500_.jpg",
-    price: "₹7,995",
-    rating: "4.7",
-    stores: 4
-  },
-  {
-    id: 5,
-    title: "Apple MacBook Air Laptop with M2 chip with 8 GB RAM / 512 GB SSD",
-    image: "https://m.media-amazon.com/images/I/71LAlGbpGOL._SL1500_.jpg",
-    price: "₹78,990",
-    rating: "4.4",
-    stores: 3
-  },
-  {
-    id: 6,
-    title: "Minimalist Anti-Acne Salicylic Acid 2% Face Wash with LHA",
-    image: "https://m.media-amazon.com/images/I/61Yl83RXSsL._SL1500_.jpg",
-    price: "₹284",
-    rating: "4.1",
-    stores: 4
-  }
-];
+interface ProductWithStores {
+  product: Product;
+  storeCount: number;
+  lowestPrice: string;
+}
 
-const ProductCard = ({ product }: { product: typeof products[0] }) => {
+const ProductCard = ({ productData }: { productData: ProductWithStores }) => {
+  const { product, storeCount, lowestPrice } = productData;
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
   
@@ -77,7 +35,7 @@ const ProductCard = ({ product }: { product: typeof products[0] }) => {
           onClick={handleCompareClick}
         >
           <img
-            src={product.image}
+            src={product.image_url}
             alt={product.title}
             className="h-48 object-contain mx-auto"
           />
@@ -100,8 +58,8 @@ const ProductCard = ({ product }: { product: typeof products[0] }) => {
           </div>
 
           <div className="flex justify-between items-center mb-4">
-            <div className="font-bold">From {product.price}</div>
-            <div className="text-xs text-gray-600">{product.stores} stores</div>
+            <div className="font-bold">From {lowestPrice}</div>
+            <div className="text-xs text-gray-600">{storeCount} stores</div>
           </div>
 
           <Button 
@@ -118,6 +76,43 @@ const ProductCard = ({ product }: { product: typeof products[0] }) => {
 
 const Deals = () => {
   const navigate = useNavigate();
+  const [products, setProducts] = useState<ProductWithStores[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setIsLoading(true);
+        
+        // Get products
+        const productList = await ProductService.getProducts({ limit: 20 });
+        
+        // Get store counts and lowest prices for each product
+        const productsWithStores = await Promise.all(
+          productList.map(async (product) => {
+            const stores = await ProductService.getProductStores(product.id);
+            const lowestPrice = stores.length > 0 
+              ? `₹${Math.min(...stores.map(store => store.store_price)).toLocaleString('en-IN')}`
+              : `₹${product.price.toLocaleString('en-IN')}`;
+              
+            return {
+              product,
+              storeCount: stores.length,
+              lowestPrice
+            };
+          })
+        );
+        
+        setProducts(productsWithStores);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
   
   return (
     <>
@@ -142,11 +137,17 @@ const Deals = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.map(product => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          {isLoading ? (
+            <div className="flex justify-center items-center h-40">
+              <div className="text-xl font-medium">Loading products...</div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {products.map((productData) => (
+                <ProductCard key={productData.product.id} productData={productData} />
+              ))}
+            </div>
+          )}
         </div>
       </main>
     </>
