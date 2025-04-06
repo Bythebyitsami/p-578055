@@ -117,6 +117,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       if (error) throw error;
       
+      // Update the local user state with the new metadata
+      if (user) {
+        setUser({
+          ...user,
+          user_metadata: {
+            ...user.user_metadata,
+            ...updates
+          }
+        });
+      }
+      
       toast({
         title: "Profile updated",
         description: "Your profile has been updated successfully!"

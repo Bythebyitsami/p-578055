@@ -12,9 +12,9 @@ const Profile = () => {
   const { user, isLoggedIn, updateProfile } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [firstName, setFirstName] = useState<string>(user?.firstName || "");
-  const [lastName, setLastName] = useState<string>(user?.lastName || "");
-  const [profileImage, setProfileImage] = useState<string | undefined>(user?.profileImage);
+  const [firstName, setFirstName] = useState<string>(user?.user_metadata?.firstName || "");
+  const [lastName, setLastName] = useState<string>(user?.user_metadata?.lastName || "");
+  const [profileImage, setProfileImage] = useState<string | undefined>(user?.user_metadata?.profileImage);
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   if (!isLoggedIn) {
@@ -84,7 +84,7 @@ const Profile = () => {
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-gray-300 text-gray-600">
-                    {user?.firstName.charAt(0)}{user?.lastName.charAt(0)}
+                    {user?.user_metadata?.firstName?.charAt(0) || '?'}{user?.user_metadata?.lastName?.charAt(0) || '?'}
                   </div>
                 )}
               </div>

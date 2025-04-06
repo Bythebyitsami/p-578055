@@ -101,18 +101,18 @@ export function Header({ className }: HeaderProps) {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="flex items-center gap-2 text-xl text-black hover:text-primary transition-colors px-2 py-1 rounded">
-                  {user?.profileImage ? (
+                  {user?.user_metadata?.profileImage ? (
                     <img 
-                      src={user.profileImage} 
+                      src={user.user_metadata.profileImage} 
                       alt="Profile" 
                       className="w-7 h-7 rounded-full object-cover"
                     />
                   ) : (
                     <div className="w-7 h-7 bg-gray-300 rounded-full flex items-center justify-center text-sm text-gray-700">
-                      {user?.firstName.charAt(0)}
+                      {user?.user_metadata?.firstName?.charAt(0) || '?'}
                     </div>
                   )}
-                  {user?.firstName || "Profile"}
+                  {user?.user_metadata?.firstName || "Profile"}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 bg-white shadow-lg z-50">

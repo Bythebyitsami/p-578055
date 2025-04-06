@@ -32,7 +32,7 @@ export function Hero() {
       >
         {isLoggedIn ? (
           <h1 className="text-3xl md:text-5xl font-extrabold text-center mb-6">
-            Hey {user?.firstName}, your Price Panda adventure starts now!
+            Hey {user?.user_metadata?.firstName || 'there'}, your Price Panda adventure starts now!
           </h1>
         ) : (
           <h1 className="text-3xl md:text-5xl font-extrabold text-center mb-6">
