@@ -2,140 +2,141 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { User, Session } from "@supabase/supabase-js";
 
 interface AuthContextType {
   isLoggedIn: boolean;
   user: User | null;
-  login: (email: string, password: string) => boolean;
-  signup: (firstName: string, lastName: string, email: string, password: string) => boolean;
-  logout: () => void;
-  updateProfile: (updates: Partial<User>) => void;
+  session: Session | null;
+  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  signup: (firstName: string, lastName: string, email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  logout: () => Promise<void>;
+  updateProfile: (updates: { firstName?: string; lastName?: string; profileImage?: string }) => Promise<void>;
 }
 
-interface User {
-  firstName: string;
-  lastName: string;
-  email: string;
+interface UserMetadata {
+  firstName?: string;
+  lastName?: string;
   profileImage?: string;
 }
-
-const LOCAL_STORAGE_KEY = "pricePandaUser";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
   
-  // Load user from localStorage on initial render
   useEffect(() => {
-    const savedUser = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (savedUser) {
-      const parsedUser = JSON.parse(savedUser);
-      setUser(parsedUser);
-      setIsLoggedIn(true);
-    }
-  }, []);
-
-  const login = (email: string, password: string) => {
-    // This is a mock login - in a real app, you'd call your backend API
-    // For demo purposes, simple validation
-    if (email && password.length >= 6) {
-      // Check if this user has signed up before
-      const savedUser = localStorage.getItem(LOCAL_STORAGE_KEY);
-      let userToLogin: User;
-      
-      if (savedUser) {
-        const parsedUser = JSON.parse(savedUser);
-        // In a real app, you'd verify the password here
-        userToLogin = parsedUser;
-      } else {
-        // If no saved user, create a default one
-        userToLogin = {
-          firstName: "User",
-          lastName: "Name",
-          email: email
-        };
+    // Set up auth state listener first
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, newSession) => {
+        setSession(newSession);
+        setUser(newSession?.user ?? null);
+        setIsLoggedIn(!!newSession);
+        
+        if (event === 'SIGNED_IN') {
+          toast({
+            title: "Login successful",
+            description: "Welcome back!"
+          });
+        } else if (event === 'SIGNED_OUT') {
+          toast({
+            title: "Logged out",
+            description: "You have been logged out successfully"
+          });
+        }
       }
-      
-      // Set the user and login state
-      setUser(userToLogin);
-      setIsLoggedIn(true);
-      
-      // Save user to localStorage
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(userToLogin));
-      
-      toast({
-        title: "Login successful",
-        description: `Welcome back, ${userToLogin.firstName}!`
+    );
+    
+    // Then check for existing session
+    supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
+      setSession(currentSession);
+      setUser(currentSession?.user ?? null);
+      setIsLoggedIn(!!currentSession);
+    });
+    
+    return () => subscription.unsubscribe();
+  }, [toast]);
+
+  const login = async (email: string, password: string) => {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
       });
       
-      return true;
+      if (error) {
+        return { success: false, error: error.message };
+      }
+      
+      return { success: true };
+    } catch (error: any) {
+      return { success: false, error: error.message || 'Unknown error occurred' };
     }
-    return false;
   };
 
-  const signup = (firstName: string, lastName: string, email: string, password: string) => {
-    // This is a mock signup - in a real app, you'd call your backend API
-    if (firstName && lastName && email && password.length >= 6) {
-      // Create user object
-      const newUser = {
-        firstName,
-        lastName,
-        email
-      };
+  const signup = async (firstName: string, lastName: string, email: string, password: string) => {
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            firstName,
+            lastName
+          }
+        }
+      });
       
-      // Set the user and login state
-      setUser(newUser);
-      setIsLoggedIn(true);
-      
-      // Save user to localStorage
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newUser));
+      if (error) {
+        return { success: false, error: error.message };
+      }
       
       toast({
         title: "Account created",
         description: "Your account has been created successfully!"
       });
       
-      return true;
+      return { success: true };
+    } catch (error: any) {
+      return { success: false, error: error.message || 'Unknown error occurred' };
     }
-    return false;
   };
 
-  const updateProfile = (updates: Partial<User>) => {
+  const updateProfile = async (updates: { firstName?: string; lastName?: string; profileImage?: string }) => {
     if (!user) return;
     
-    const updatedUser = { ...user, ...updates };
-    setUser(updatedUser);
-    
-    // Save updated user to localStorage
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedUser));
-    
-    toast({
-      title: "Profile updated",
-      description: "Your profile has been updated successfully!"
-    });
+    try {
+      const { error } = await supabase.auth.updateUser({
+        data: updates as UserMetadata
+      });
+      
+      if (error) throw error;
+      
+      toast({
+        title: "Profile updated",
+        description: "Your profile has been updated successfully!"
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update profile",
+        variant: "destructive"
+      });
+    }
   };
 
-  const logout = () => {
-    setIsLoggedIn(false);
-    setUser(null);
-    
-    // Remove user from localStorage
-    localStorage.removeItem(LOCAL_STORAGE_KEY);
-    
-    toast({
-      title: "Logged out",
-      description: "You have been logged out successfully"
-    });
-    
+  const logout = async () => {
+    await supabase.auth.signOut();
     navigate("/");
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, signup, logout, updateProfile }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, session, login, signup, logout, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );
