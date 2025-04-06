@@ -41,42 +41,42 @@ export const useRealtimeProducts = (productId?: string) => {
         // If we have a specific product ID, just fetch that one
         if (productId) {
           const { data: product, error: productError } = await supabase
-            .from('products' as any)
-            .select('*')
+            .from('products')
+            .select()
             .eq('id', productId)
             .single();
             
           if (productError) throw productError;
-          setProducts(product ? [product as Product] : []);
+          setProducts(product ? [product as unknown as Product] : []);
           
           const { data: storeData, error: storeError } = await supabase
-            .from('product_stores' as any)
-            .select('*')
+            .from('product_stores')
+            .select()
             .eq('product_id', productId);
             
           if (storeError) throw storeError;
-          setStores(storeData as ProductStore[] || []);
+          setStores(storeData as unknown as ProductStore[] || []);
         } 
         // Otherwise fetch all products
         else {
           const { data: productsData, error: productsError } = await supabase
-            .from('products' as any)
-            .select('*')
+            .from('products')
+            .select()
             .order('created_at', { ascending: false });
             
           if (productsError) throw productsError;
-          setProducts(productsData as Product[] || []);
+          setProducts(productsData as unknown as Product[] || []);
           
           // Only fetch stores if we have products
           if (productsData && productsData.length > 0) {
             const productIds = productsData.map(p => p.id);
             const { data: storeData, error: storeError } = await supabase
-              .from('product_stores' as any)
-              .select('*')
+              .from('product_stores')
+              .select()
               .in('product_id', productIds);
               
             if (storeError) throw storeError;
-            setStores(storeData as ProductStore[] || []);
+            setStores(storeData as unknown as ProductStore[] || []);
           }
         }
       } catch (error) {
@@ -101,9 +101,9 @@ export const useRealtimeProducts = (productId?: string) => {
         
         // Handle different database events
         if (payload.eventType === 'INSERT') {
-          setProducts(prev => [...prev, payload.new as Product]);
+          setProducts(prev => [...prev, payload.new as unknown as Product]);
         } else if (payload.eventType === 'UPDATE') {
-          setProducts(prev => prev.map(p => p.id === (payload.new as any).id ? payload.new as Product : p));
+          setProducts(prev => prev.map(p => p.id === (payload.new as any).id ? payload.new as unknown as Product : p));
         } else if (payload.eventType === 'DELETE') {
           setProducts(prev => prev.filter(p => p.id !== (payload.old as any).id));
         }
@@ -118,9 +118,9 @@ export const useRealtimeProducts = (productId?: string) => {
         
         // Handle different database events
         if (payload.eventType === 'INSERT') {
-          setStores(prev => [...prev, payload.new as ProductStore]);
+          setStores(prev => [...prev, payload.new as unknown as ProductStore]);
         } else if (payload.eventType === 'UPDATE') {
-          setStores(prev => prev.map(s => s.id === (payload.new as any).id ? payload.new as ProductStore : s));
+          setStores(prev => prev.map(s => s.id === (payload.new as any).id ? payload.new as unknown as ProductStore : s));
         } else if (payload.eventType === 'DELETE') {
           setStores(prev => prev.filter(s => s.id !== (payload.old as any).id));
         }

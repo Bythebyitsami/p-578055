@@ -1,5 +1,6 @@
 
 import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 
 export interface Product {
   id: string;
@@ -26,7 +27,9 @@ export interface ProductStore {
 
 export const ProductService = {
   async getProducts({ limit = 10, offset = 0, category = null }): Promise<Product[]> {
-    let query = supabase.from('products' as any).select('*');
+    let query = supabase
+      .from('products')
+      .select();
     
     if (category) {
       query = query.eq('category', category);
@@ -41,13 +44,13 @@ export const ProductService = {
       return [];
     }
     
-    return data as Product[];
+    return data as unknown as Product[];
   },
   
   async getProductById(id: string): Promise<Product | null> {
     const { data, error } = await supabase
-      .from('products' as any)
-      .select('*')
+      .from('products')
+      .select()
       .eq('id', id)
       .single();
       
@@ -56,13 +59,13 @@ export const ProductService = {
       return null;
     }
     
-    return data as Product;
+    return data as unknown as Product;
   },
   
   async getProductStores(productId: string): Promise<ProductStore[]> {
     const { data, error } = await supabase
-      .from('product_stores' as any)
-      .select('*')
+      .from('product_stores')
+      .select()
       .eq('product_id', productId)
       .order('store_price', { ascending: true });
       
@@ -71,6 +74,6 @@ export const ProductService = {
       return [];
     }
     
-    return data as ProductStore[];
+    return data as unknown as ProductStore[];
   }
 };
