@@ -46,9 +46,14 @@ const SignUp = () => {
           setErrorMessage(error || "Signup failed. Please try again.");
         }
       } else {
-        // Successfully signed up, navigation is handled by AuthContext
+        // Successfully signed up and logged in (handled by AuthContext)
+        toast({
+          title: "Welcome to Price Panda!",
+          description: "Your account has been created successfully."
+        });
       }
     } catch (error: any) {
+      console.error("Signup exception:", error);
       setErrorMessage(error.message || "An unexpected error occurred");
       toast({
         variant: "destructive",

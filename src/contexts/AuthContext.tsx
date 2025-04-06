@@ -41,8 +41,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (event === 'SIGNED_IN') {
           toast({
             title: "Login successful",
-            description: "Welcome back!"
+            description: "Welcome to Price Panda!"
           });
+          navigate('/');
         } else if (event === 'SIGNED_OUT') {
           toast({
             title: "Logged out",
@@ -60,7 +61,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
     
     return () => subscription.unsubscribe();
-  }, [toast]);
+  }, [toast, navigate]);
 
   const login = async (email: string, password: string) => {
     try {
@@ -70,17 +71,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
       
       if (error) {
+        console.error("Login error:", error);
         return { success: false, error: error.message };
       }
       
       return { success: true };
     } catch (error: any) {
+      console.error("Login exception:", error);
       return { success: false, error: error.message || 'Unknown error occurred' };
     }
   };
 
   const signup = async (firstName: string, lastName: string, email: string, password: string) => {
     try {
+      // Set email confirmation to false
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -88,21 +92,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           data: {
             firstName,
             lastName
-          }
+          },
+          emailRedirectTo: window.location.origin
         }
       });
       
       if (error) {
+        console.error("Signup error:", error);
         return { success: false, error: error.message };
       }
       
-      toast({
-        title: "Account created",
-        description: "Your account has been created successfully!"
-      });
+      // Check if email confirmation is needed
+      if (data?.user?.identities?.length === 0) {
+        return { 
+          success: false, 
+          error: "This email is already registered! Try logging in instead." 
+        };
+      }
+      
+      // Auto-login the user after signup (no email confirmation required)
+      if (data?.user) {
+        toast({
+          title: "Account created",
+          description: "Your account has been created successfully!"
+        });
+        
+        // Try to login automatically
+        await login(email, password);
+      }
       
       return { success: true };
     } catch (error: any) {
+      console.error("Signup exception:", error);
       return { success: false, error: error.message || 'Unknown error occurred' };
     }
   };

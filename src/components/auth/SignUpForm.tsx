@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FormField } from "./FormField";
-import { useAuth } from "@/contexts/AuthContext";
 
 interface SignUpFormProps {
   loading: boolean;
@@ -144,7 +143,7 @@ export const SignUpForm = ({ loading, errorMessage, showErrorMessage, handleSubm
         }}
         placeholder="Confirm password"
         disabled={loading}
-        error={passwordError}
+        error={passwordError || (formSubmitted && password !== confirmPassword && confirmPassword)}
       />
 
       {/* Signup Button */}
